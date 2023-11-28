@@ -63,10 +63,7 @@ class Simulation {
 }
 
 CityPlan --> "1..*" Street : streets
-class CityPlan {
-    getMatrix(): Matrix
-    getCostMatrix(): Matrix
-}
+class CityPlan
 
 Intersection "1" <-- "1" Street : startIntersection
 Intersection "1" <-- "1" Street : endIntersection
@@ -85,7 +82,7 @@ Car --> "1" Street : currentStreet
 Car --> "n" Street : path
 class Car {
     tick(): void
-    finish()
+    isFinished(): Boolean
     getScore(time: Integer): Integer
 }
 

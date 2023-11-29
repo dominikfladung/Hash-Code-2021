@@ -11,6 +11,10 @@ This project is developed by:
 
 // TODO
 
+## Project structure
+
+// TODO
+
 ## Notes
 
 The task is to schedule the traffic lights of a city in order to minimize the total time that cars spend travelling until they reach their destination. The city is represented as a directed graph, where intersections are nodes and streets are edges. Each street has a traffic light that signals when cars can drive along the street. Each car travels along a predefined path, which is a sequence of streets that it needs to traverse to reach its destination. The traffic lights can be scheduled to specify how long each traffic light is green.
@@ -36,20 +40,19 @@ class SimulationFactory {
     static makeFromInput(input: String): Simulation
 }
 
-class Parameters {
-    duration: Integer
-    numberOfIntersections: Integer
-    numberOfStreets: Integer
-    numberOfCars: Integer
-    bonusPoints: Integer
-}
-
 Simulation "1" --> "1" CityPlan : cityPlan
 Simulation "1" --> "1..*" Car : cars
 Simulation "1" --> "1" Scheduler : scheduler
 class Simulation {
+    maxDuration: Integer
+    numberOfIntersections: Integer
+    numberOfStreets: Integer
+    numberOfCars: Integer
+    bonusPoints: Integer
+
     currentTime: Integer
-    parameters: Parameters
+
+    trafficLightsMatrix: Matrix
     cityPlanMatrix: Matrix
     costMatrix: Matrix
     score: Integer
@@ -106,30 +109,15 @@ class TrafficLight {
 
 Controls the traffic lights of the city. The scheduler is responsible for setting the traffic lights to green and red.
 
-- `trafficLightsMatrix` is a matrix of 1/0 values. 1 means that the traffic light is green, 0 means that the traffic light is red.
+- `trafficLightsMatrix` is a matrix which contains 0 or n. If the value is 0 the traffic light is red. If the value larger 0 the traffic light is green and the value is the number of seconds the traffic light is green.
 
 ```mermaid
 classDiagram
 
-class SchedulerType {
-    <<Enumeration>>
-    ROUND_ROBIN
-    VIRTUAL_ROUND_ROBIN
-    RANDOM
-    LEAST_TRAFFIC
-    LOTTERY
-}
-
-class SchedulerFactory {
-    static make(type: SchedulerType): Scheduler
-}
-
-Scheduler "1" --> "1..*" SchedulePair : schedulePairs
+Scheduler "1" --> "1" Simulation : simulation
 class Scheduler {
-    trafficLightsMatrix: Matrix
-    currentPairIndex: Integer
-    tick(): void
-    setNextPair(): void
+    <<abstract>>
+    abstract tick(): void
 }
 
 Scheduler <|-- RoundRobinScheduler
@@ -138,10 +126,7 @@ Scheduler <|-- RandomScheduler
 Scheduler <|-- LeastTrafficScheduler
 Scheduler <|-- LotteryScheduler
 
-SchedulePair --> "1" TrafficLight : trafficLight
-SchedulePair --> "1" Intersection : intersection
-class SchedulePair {
-    duration: Integer
-    remainingDuration: Integer
+class SchedulerFactory {
+    static make(type: SchedulerType): Scheduler
 }
 ```

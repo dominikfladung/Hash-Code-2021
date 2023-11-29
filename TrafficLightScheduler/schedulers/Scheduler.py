@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from TrafficLightScheduler.simulation.Simulation import Simulation
 
 
 class Scheduler(ABC):
@@ -6,5 +7,5 @@ class Scheduler(ABC):
         self.options = options
 
     @abstractmethod
-    def tick(self):
+    def tick(self, simulation: Simulation):
         pass

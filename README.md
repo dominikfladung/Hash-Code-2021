@@ -22,16 +22,16 @@ The task is to schedule the traffic lights of a city in order to minimize the to
 - The cityplan is represented as a directed graph
 - At most one traffic light will be green at each intersection
 - When  the  light  is  green,  one  car  can  cross  the intersection every  second
-- `SchedulePair` describes the green phase
 - By default all lights on all intersections are red
 - the scheduling of the traffic lights is optional. A traffic light can be always red
 - default all traffic lights are red
-- all cars start the end of the first street in their path
+- all cars start at the end of the first street in their path
 
 ### Simulation
 
 - `costMatrix` is a matrix of integers. The value at position (i,j) is the cost of the shortest path from intersection i to intersection j.
 - `cityPlanMatrix` is a matrix of integers. The value at position (i,j) is the id of the street that connects intersection i to intersection j.
+- `trafficLightsMatrix` is a matrix of integers. The value at position (i,j) determines the duration of the green light of the traffic light that controls the street that connects intersection i to intersection j.
 
 ```mermaid
 classDiagram

@@ -1,6 +1,3 @@
-from TrafficLightScheduler.schedulers.Scheduler import Scheduler
-
-
 class Simulation:
     def __init__(self):
         self.scheduler = None
@@ -17,7 +14,7 @@ class Simulation:
         self.cost_matrix = None
         self.score = 0
 
-    def run(self, scheduler: Scheduler):
+    def run(self, scheduler):
         self.scheduler = scheduler
         pass
 

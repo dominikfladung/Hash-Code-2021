@@ -24,9 +24,13 @@ class SimulationFactory:
                                            simulation.number_of_intersections), dtype=int)
         simulation.traffic_lights_matrix = np.zeros((simulation.number_of_intersections,
                                                      simulation.number_of_intersections), dtype=int)
+        simulation.used_traffic_lights_matrix = np.zeros((simulation.number_of_intersections,
+                                                          simulation.number_of_intersections), dtype=int)
 
         # streets
         streets = content[1:simulation.number_of_streets + 1]
+        street_positions = {}
+        simulation.street_positions = street_positions
         for i in range(simulation.number_of_streets):
             street = streets[i].split(' ')
             start_intersection = int(street[0])
@@ -35,10 +39,18 @@ class SimulationFactory:
             cost = int(street[3])
             simulation.city_plan_matrix[start_intersection][end_intersection] = name
             simulation.cost_matrix[start_intersection][end_intersection] = cost
+            street_positions[name] = (start_intersection, end_intersection)
 
         # cars
         cars = content[simulation.number_of_streets + 1:]
+
+        # search the edge for the street
         for i in range(simulation.number_of_cars):
-            simulation.cars.append(Car(cars[i].split(' ')))
+            car_data = cars[i].split(' ')
+            car = Car(car_data)
+            car.id = i
+            car.target_intersections = int(car_data[0])
+            car.path = [street_positions[x] for x in car_data[1:]]
+            simulation.cars.append(car)
 
         return simulation

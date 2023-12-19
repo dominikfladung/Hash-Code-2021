@@ -2,6 +2,7 @@ from TrafficLightScheduler.schedulers.Scheduler import Scheduler
 from TrafficLightScheduler.simulation.Simulation import Simulation
 from TrafficLightScheduler.simulation.SimulationFactory import SimulationFactory
 from itertools import cycle
+from tqdm import tqdm
 
 
 class RoundRobinScheduler(Scheduler):
@@ -30,7 +31,9 @@ class RoundRobinScheduler(Scheduler):
 
 
 if __name__ == "__main__":
-    print("RoundRobinScheduler")
-    scheduler = RoundRobinScheduler(6)
-    _simulation = SimulationFactory.make_from_input("a", "RoundRobinScheduler_6_a")
-    _simulation.run(scheduler)
+    i = 10
+    for char in tqdm(['a', 'b', 'c', 'd', 'e', 'f']):
+        name = "RoundRobinScheduler_" + char + str(i)
+        simulation = SimulationFactory.make_from_input(char, name)
+        scheduler = RoundRobinScheduler(i)
+        simulation.run(scheduler)

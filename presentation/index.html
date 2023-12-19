@@ -1,0 +1,188 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>reveal.js</title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/softwaredesign-solution.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="plugin/highlight/monokai.css">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+
+				<section>
+					<h1>Google Hashcode 2021</h1>
+				</section>
+
+				<section>
+					<section>
+						<h1>Aufgabenstellung</h1>
+						<p>
+							Die Aufgabenstellung von Google Hashcode 2021 besteht darin, ein Verkehrssteuerungssystem für eine Stadt zu entwickeln. Dabei müssen verschiedene Straßen und Kreuzungen berücksichtigt werden. Das Ziel ist es, den Verkehrsfluss zu optimieren und die Fahrzeuge effizient zu ihren Zielen zu führen. Die Aufgabe beinhaltet das Lesen und Verarbeiten eines Dateiformats, das Informationen über die Dauer der Simulation, die Anzahl der Kreuzungen, Straßen, Fahrzeuge und Bonuspunkte enthält. Anschließend müssen Lösungswege entwickelt werden, um die Simulation durchzuführen und die Ergebnisse zu bewerten.
+						</p>
+
+
+					</section>
+					<section>
+						<h2>Dateiformat</h2>
+						<p>
+							The first line contains five numbers: <br>
+							- D, the duration of the simulation, <br>
+							- I, the number of intersections, <br>
+							- S, the number of streets, <br>
+							- V, the number of cars, and <br>
+							- F, the bonus points for each car that reaches its destination before time D. <br>
+						</p>
+						<p>
+							Next S lines describe the streets. Each line contains: <br>
+							- B, the start intersection (0 ≤ B < I), <br>
+							- E, the end intersection (0 ≤ E < I; E ̸= B), <br>
+							- an uppercase string, the name of the street (a–z, 1–4 characters), and <br>
+							- L, the time it takes a car to get from the start to the end of that street (1 ≤ L ≤ D). <br>
+						</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h1>Lösungsweg</h1>
+					</section>
+					<section>
+						<h2>Simulation</h2>
+						<div class="mermaid">
+							<pre>
+								classDiagram
+
+								class SimulationFactory {
+									static makeFromInput(input: String): Simulation
+								}
+								
+								Simulation "1" --> "1" CityPlan : cityPlan
+								Simulation "1" --> "1..*" Car : cars
+								Simulation "1" --> "1" Scheduler : scheduler
+								class Simulation {
+									maxDuration: Integer
+									numberOfIntersections: Integer
+									numberOfStreets: Integer
+									numberOfCars: Integer
+									bonusPoints: Integer
+								
+									currentTime: Integer
+								
+									trafficLightsMatrix: Matrix
+									cityPlanMatrix: Matrix
+									costMatrix: Matrix
+									score: Integer
+								
+									run(): void
+									tick(): void
+									
+									getScore(): Integer
+									generateSubmission(): String
+									saveSubmission(): void
+								}
+								
+								CityPlan --> "1..*" Street : streets
+								class CityPlan
+								
+								Intersection "1" <-- "1" Street : startIntersection
+								Intersection "1" <-- "1" Street : endIntersection
+								class Street {
+									name: String
+									secondsToTravel: Integer [L]
+								}
+								
+								Intersection "1" --> "1..*" Street : incomingStreets
+								Intersection "1" --> "1..*" Street : outgoingStreets 
+								class Intersection {
+									id: Integer
+								}
+								
+								Car --> "1" Street : currentStreet
+								Car --> "n" Street : path
+								class Car {
+									tick(): void
+									isFinished(): Boolean
+									getScore(time: Integer): Integer
+								}
+								
+								class TrafficLightState {
+									<<Enumeration>>
+									RED
+									GREEN
+								}
+								
+								TrafficLight "n" --> "1" Street : street
+								TrafficLight "n" --> "1" Intersection : intersection
+								TrafficLight "1" --> "n" Car: carQueue
+								class TrafficLight {
+									state: TrafficLightState
+								}
+							</pre>
+						  </div>
+					</section>
+					<section>
+						<h2>Scheduler</h2>
+						<div class="mermaid">
+							<pre>
+								classDiagram
+
+Scheduler "1" --> "1" Simulation : simulation
+class Scheduler {
+    <<abstract>>
+    abstract tick(): void
+}
+
+Scheduler <|-- RoundRobinScheduler
+Scheduler <|-- VirtualRoundRobinScheduler
+Scheduler <|-- RandomScheduler
+Scheduler <|-- LeastTrafficScheduler
+Scheduler <|-- LotteryScheduler
+
+class SchedulerFactory {
+    static make(type: SchedulerType): Scheduler
+}
+							</pre>
+						</div>
+
+				</section>
+
+				<section>
+					<h1>Ergebnisse</h1>
+				</section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/highlight/highlight.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/reveal.js-mermaid-plugin@2.0.0/plugin/mermaid/mermaid.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+				view: 'scroll',
+
+				mermaid: {
+      				flowchart: {
+      				  curve: 'linear',
+      				},
+    			},
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMermaid ]
+			});
+		</script>
+	</body>
+</html>

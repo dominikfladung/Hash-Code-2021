@@ -1,0 +1,335 @@
+/* Columns */
+.columns-1 {
+  -moz-columns: 1;
+       columns: 1;
+}
+
+.columns-2 {
+  -moz-columns: 2;
+       columns: 2;
+}
+
+.columns-3 {
+  -moz-columns: 3;
+       columns: 3;
+}
+
+.columns-4 {
+  -moz-columns: 4;
+       columns: 4;
+}
+
+.columns-5 {
+  -moz-columns: 5;
+       columns: 5;
+}
+
+.columns-6 {
+  -moz-columns: 6;
+       columns: 6;
+}
+
+.columns-7 {
+  -moz-columns: 7;
+       columns: 7;
+}
+
+.columns-8 {
+  -moz-columns: 8;
+       columns: 8;
+}
+
+.columns-9 {
+  -moz-columns: 9;
+       columns: 9;
+}
+
+.columns-10 {
+  -moz-columns: 10;
+       columns: 10;
+}
+
+.columns-11 {
+  -moz-columns: 11;
+       columns: 11;
+}
+
+.columns-12 {
+  -moz-columns: 12;
+       columns: 12;
+}
+
+.columns-auto {
+  -moz-columns: auto;
+       columns: auto;
+}
+
+.columns-3xs {
+  -moz-columns: 16rem;
+       columns: 16rem; /* 256px */
+}
+
+.columns-2xs {
+  -moz-columns: 18rem;
+       columns: 18rem; /* 288px */
+}
+
+.columns-xs {
+  -moz-columns: 20rem;
+       columns: 20rem; /* 320px */
+}
+
+.columns-sm {
+  -moz-columns: 24rem;
+       columns: 24rem; /* 384px */
+}
+
+.columns-md {
+  -moz-columns: 28rem;
+       columns: 28rem; /* 448px */
+}
+
+.columns-lg {
+  -moz-columns: 32rem;
+       columns: 32rem; /* 512px */
+}
+
+.columns-xl {
+  -moz-columns: 36rem;
+       columns: 36rem; /* 576px */
+}
+
+.columns-2xl {
+  -moz-columns: 42rem;
+       columns: 42rem; /* 672px */
+}
+
+.columns-3xl {
+  -moz-columns: 48rem;
+       columns: 48rem; /* 768px */
+}
+
+.columns-4xl {
+  -moz-columns: 56rem;
+       columns: 56rem; /* 896px */
+}
+
+.columns-5xl {
+  -moz-columns: 64rem;
+       columns: 64rem; /* 1024px */
+}
+
+.columns-6xl {
+  -moz-columns: 72rem;
+       columns: 72rem; /* 1152px */
+}
+
+.columns-7xl {
+  -moz-columns: 80rem;
+       columns: 80rem; /* 1280px */
+}
+
+/* Display */
+.block {
+  display: block;
+}
+
+.inline-block {
+  display: inline-block;
+}
+
+.inline {
+  display: inline;
+}
+
+.flex {
+  display: flex;
+}
+
+.inline-flex {
+  display: inline-flex;
+}
+
+.table {
+  display: table;
+}
+
+.inline-table {
+  display: inline-table;
+}
+
+.table-caption {
+  display: table-caption;
+}
+
+.table-cell {
+  display: table-cell;
+}
+
+.table-column {
+  display: table-column;
+}
+
+.table-column-group {
+  display: table-column-group;
+}
+
+.table-footer-group {
+  display: table-footer-group;
+}
+
+.table-header-group {
+  display: table-header-group;
+}
+
+.table-row-group {
+  display: table-row-group;
+}
+
+.table-row {
+  display: table-row;
+}
+
+.flow-root {
+  display: flow-root;
+}
+
+.grid {
+  display: grid;
+}
+
+.inline-grid {
+  display: inline-grid;
+}
+
+.contents {
+  display: contents;
+}
+
+.list-item {
+  display: list-item;
+}
+
+.hidden {
+  display: none;
+}
+
+/* Floats */
+.float-right {
+  float: right;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-none {
+  float: none;
+}
+
+/* Object Fit */
+.object-contain {
+  -o-object-fit: contain;
+     object-fit: contain;
+}
+
+.object-cover {
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.object-fill {
+  -o-object-fit: fill;
+     object-fit: fill;
+}
+
+.object-none {
+  -o-object-fit: none;
+     object-fit: none;
+}
+
+.object-scale-down {
+  -o-object-fit: scale-down;
+     object-fit: scale-down;
+}
+
+/* Object Position */
+.object-bottom {
+  -o-object-position: bottom;
+     object-position: bottom;
+}
+
+.object-center {
+  -o-object-position: center;
+     object-position: center;
+}
+
+.object-left {
+  -o-object-position: left;
+     object-position: left;
+}
+
+.object-left-bottom {
+  -o-object-position: left bottom;
+     object-position: left bottom;
+}
+
+.object-left-top {
+  -o-object-position: left top;
+     object-position: left top;
+}
+
+.object-right {
+  -o-object-position: right;
+     object-position: right;
+}
+
+.object-right-bottom {
+  -o-object-position: right bottom;
+     object-position: right bottom;
+}
+
+.object-right-top {
+  -o-object-position: right top;
+     object-position: right top;
+}
+
+.object-top {
+  -o-object-position: top;
+     object-position: top;
+}
+
+/* Top / Right / Bottom / Left */
+.inset-0 {
+  inset: 0px;
+}
+
+.inset-x-0 {
+  left: 0px;
+  right: 0px;
+}
+
+.inset-y-0 {
+  top: 0px;
+  bottom: 0px;
+}
+
+.start-0 {
+  inset-inline-start: 0px;
+}
+
+.end-0 {
+  inset-inline-end: 0px;
+}
+
+.top-0 {
+  top: 0px;
+}
+
+.right-0 {
+  right: 0px;
+}
+
+.top-1\/2 {
+  top: 50%;
+}/*# sourceMappingURL=Layout.css.map */

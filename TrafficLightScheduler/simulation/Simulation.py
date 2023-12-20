@@ -62,7 +62,7 @@ class Simulation:
         for car in finished_cars:
             self.score += self.bonus_points + self.max_duration - self.current_time
             if self.debug:
-                print(f"Car finished at {self.current_time}: " + str(car.car_data))
+                print(f"Car#{car.id} finished at {self.current_time}: " + str(car.car_data))
 
         # remove finished cars
         self.cars = [car for car in self.cars if not car.reached_target()]

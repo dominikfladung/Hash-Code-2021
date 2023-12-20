@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Debug:RoundRobin 10" type="PythonConfigurationType" factoryName="Python">
+  <configuration default="false" name="Debug:RoundRobin 1" type="PythonConfigurationType" factoryName="Python">
     <module name="Hash-Code-2021" />
     <option name="ENV_FILES" value="" />
     <option name="INTERPRETER_OPTIONS" value="" />
@@ -14,7 +14,7 @@
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
     <option name="SCRIPT_NAME" value="$PROJECT_DIR$/TrafficLightScheduler/__main__.py" />
-    <option name="PARAMETERS" value="-so 10 -s &quot;round_robin&quot; -i a --debug" />
+    <option name="PARAMETERS" value="-so 1 -s &quot;round_robin&quot; -i a --debug" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
     <option name="MODULE_MODE" value="false" />

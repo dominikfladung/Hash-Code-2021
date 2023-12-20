@@ -15,17 +15,18 @@ class RoundRobinScheduler(Scheduler):
         for i in range(simulation.number_of_intersections):
             if i not in self.cycles:
                 # initialize cycle
-                self.cycles[i] = cycle([x for x in range(simulation.number_of_intersections) if
-                                        simulation.city_plan_matrix[i][x] is not None])
+                vertex = [x for x in range(simulation.number_of_intersections) if
+                         simulation.city_plan_matrix[x][i] is not None]
+                self.cycles[i] = cycle(vertex)
                 self.active_streets[i] = next(self.cycles[i])
-                traffic_lights_matrix[i][self.active_streets[i]] = self.quantum
+                traffic_lights_matrix[self.active_streets[i]][i] = self.quantum
             else:
                 current_street = self.active_streets[i]
-                if traffic_lights_matrix[i][current_street] > 0:
-                    traffic_lights_matrix[i][current_street] -= 1
-                    if traffic_lights_matrix[i][current_street] == 0:
+                if traffic_lights_matrix[current_street][i] > 0:
+                    traffic_lights_matrix[current_street][i] -= 1
+                    if traffic_lights_matrix[current_street][i] == 0:
                         self.active_streets[i] = next(self.cycles[i])
-                        traffic_lights_matrix[i][self.active_streets[i]] = self.quantum
+                        traffic_lights_matrix[self.active_streets[i]][i] = self.quantum
 
     def create_submission(self, simulation: Simulation):
         submission = [simulation.number_of_intersections]

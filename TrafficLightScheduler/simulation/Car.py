@@ -16,16 +16,18 @@ class Car:
         if self.cost_of_path > 0:
             return
 
-        (start, end) = self.path[self.position_index]
+        (from_vertex, to_vertex) = self.path[self.position_index]
 
         # traffic light is already used
         # TODO find a better way to do this
-        if simulation.used_traffic_lights_matrix[start][end] == 1:
+        if simulation.used_traffic_lights_matrix[from_vertex][to_vertex] == 1:
             return
 
         # queue at intersection - check red light
-        traffic_lights = simulation.traffic_lights_matrix[start][end]
+        traffic_lights = simulation.traffic_lights_matrix[from_vertex][to_vertex]
         if traffic_lights == 0:
+            if simulation.debug:
+                print(f"Car#{self.id} has red at ({from_vertex}, {to_vertex})")
             return
 
         # do nothing if finished
@@ -33,10 +35,10 @@ class Car:
             return
 
         # move to next street
-        simulation.used_traffic_lights_matrix[start][end] = 1
+        simulation.used_traffic_lights_matrix[from_vertex][to_vertex] = 1
         self.position_index += 1
-        (start, end) = self.path[self.position_index]
-        self.cost_of_path = simulation.cost_matrix[start][end]
+        (from_vertex, to_vertex) = self.path[self.position_index]
+        self.cost_of_path = simulation.cost_matrix[from_vertex][to_vertex]
 
     def reached_target(self):
         return self.path[self.position_index] == self.path[-1] and self.cost_of_path == 0

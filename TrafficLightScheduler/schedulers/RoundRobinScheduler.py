@@ -16,7 +16,7 @@ class RoundRobinScheduler(Scheduler):
             if i not in self.cycles:
                 # initialize cycle
                 vertex = [x for x in range(simulation.number_of_intersections) if
-                         simulation.city_plan_matrix[x][i] is not None]
+                          simulation.city_plan_matrix[x][i] is not None]
                 self.cycles[i] = cycle(vertex)
                 self.active_streets[i] = next(self.cycles[i])
                 traffic_lights_matrix[self.active_streets[i]][i] = self.quantum

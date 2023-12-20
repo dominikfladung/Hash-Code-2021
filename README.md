@@ -130,3 +130,41 @@ class SchedulerFactory {
     static make(type: SchedulerType): Scheduler
 }
 ```
+
+## Scores
+
+## Round Robin
+
+### Round Robin Quantum 1
+
+```
+Score for round_robin_a_1: 1001
+Score for round_robin_e_1: 670216
+Score for round_robin_f_1: 506923
+Score for round_robin_c_1: 1230269
+Score for round_robin_b_1: 4565601
+Score for round_robin_d_1: 989401
+```
+
+### Round Robin Quantum 5
+
+```
+Score for round_robin_a_5: 0
+Score for round_robin_e_5: 546686
+Score for round_robin_f_5: 422413
+Score for round_robin_c_5: 990001
+Score for round_robin_b_5: 4546918
+Score for round_robin_d_5: 0
+```
+
+
+### Round Robin Quantum 10
+
+```
+Score for round_robin_a_10: 0
+Score for round_robin_e_10: 485384
+Score for round_robin_f_10: 365874
+Score for round_robin_c_10: 829997
+Score for round_robin_b_10: 4524494
+Score for round_robin_d_10: 0
+```

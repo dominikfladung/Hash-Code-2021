@@ -10,6 +10,16 @@
 		<link rel="stylesheet" href="dist/reveal.css">
 		<link rel="stylesheet" href="dist/theme/softwaredesign-solution.css">
 
+		<style>
+		.label foreignObject {
+			overflow: visible;
+		}
+
+		.mermaid svg{
+			max-height: calc(var(--slide-height) - 100px);
+		}
+		</style>
+
 		<!-- Theme used for syntax highlighted code -->
 		<link rel="stylesheet" href="plugin/highlight/monokai.css">
 	</head>
@@ -48,14 +58,19 @@
 							- L, the time it takes a car to get from the start to the end of that street (1 ≤ L ≤ D). <br>
 						</p>
 					</section>
+
+					<section>
+						<img src="images/car1.bmp" alt="">
+						<img src="images/car2.bmp" alt="">
+					</section>
 				</section>
 
 				<section>
 					<section>
-						<h1>Lösungsweg</h1>
+						<h1>Lösungsweg<br/>SOLL</h1>
 					</section>
 					<section>
-						<h2>Simulation</h2>
+						<h2>Simulation - SOLL</h2>
 						<div class="mermaid">
 							<pre>
 								classDiagram
@@ -63,7 +78,7 @@
 								class SimulationFactory {
 									static makeFromInput(input: String): Simulation
 								}
-								
+
 								Simulation "1" --> "1" CityPlan : cityPlan
 								Simulation "1" --> "1..*" Car : cars
 								Simulation "1" --> "1" Scheduler : scheduler
@@ -73,38 +88,38 @@
 									numberOfStreets: Integer
 									numberOfCars: Integer
 									bonusPoints: Integer
-								
+
 									currentTime: Integer
-								
+
 									trafficLightsMatrix: Matrix
 									cityPlanMatrix: Matrix
 									costMatrix: Matrix
 									score: Integer
-								
+
 									run(): void
 									tick(): void
-									
+
 									getScore(): Integer
 									generateSubmission(): String
 									saveSubmission(): void
 								}
-								
+
 								CityPlan --> "1..*" Street : streets
 								class CityPlan
-								
+
 								Intersection "1" <-- "1" Street : startIntersection
 								Intersection "1" <-- "1" Street : endIntersection
 								class Street {
 									name: String
 									secondsToTravel: Integer [L]
 								}
-								
+
 								Intersection "1" --> "1..*" Street : incomingStreets
-								Intersection "1" --> "1..*" Street : outgoingStreets 
+								Intersection "1" --> "1..*" Street : outgoingStreets
 								class Intersection {
 									id: Integer
 								}
-								
+
 								Car --> "1" Street : currentStreet
 								Car --> "n" Street : path
 								class Car {
@@ -112,43 +127,44 @@
 									isFinished(): Boolean
 									getScore(time: Integer): Integer
 								}
-								
+
 								class TrafficLightState {
 									<<Enumeration>>
 									RED
 									GREEN
 								}
-								
+
 								TrafficLight "n" --> "1" Street : street
 								TrafficLight "n" --> "1" Intersection : intersection
 								TrafficLight "1" --> "n" Car: carQueue
 								class TrafficLight {
 									state: TrafficLightState
 								}
+
 							</pre>
 						  </div>
 					</section>
+
 					<section>
-						<h2>Scheduler</h2>
+						<h2>Scheduler - SOLL</h2>
 						<div class="mermaid">
 							<pre>
 								classDiagram
 
-Scheduler "1" --> "1" Simulation : simulation
-class Scheduler {
-    <<abstract>>
-    abstract tick(): void
-}
+								Scheduler "1" --> "1" Simulation : simulation
+								class Scheduler {
+									abstract tick(): void
+								}
 
-Scheduler <|-- RoundRobinScheduler
-Scheduler <|-- VirtualRoundRobinScheduler
-Scheduler <|-- RandomScheduler
-Scheduler <|-- LeastTrafficScheduler
-Scheduler <|-- LotteryScheduler
+								Scheduler <|-- RoundRobinScheduler
+								Scheduler <|-- VirtualRoundRobinScheduler
+								Scheduler <|-- RandomScheduler
+								Scheduler <|-- LeastTrafficScheduler
+								Scheduler <|-- LotteryScheduler
 
-class SchedulerFactory {
-    static make(type: SchedulerType): Scheduler
-}
+								class SchedulerFactory {
+									static make(type: SchedulerType): Scheduler
+								}
 							</pre>
 						</div>
 
@@ -156,13 +172,162 @@ class SchedulerFactory {
 				</section>
 
 				<section>
-					<h1>Ergebnisse</h1>
+					<section>
+						<h1>Lösungsweg<br/>IST</h1>
+					</section>
+					<section>
+						<h2>Simulation - IST</h2>
+						<div class="mermaid">
+							<pre>
+								classDiagram
+
+								class SimulationFactory {
+									static makeFromInput(input: String): Simulation
+								}
+
+								Simulation "1" --> "1" CityPlan : cityPlan
+								Simulation "1" --> "1..*" Car : cars
+								Simulation "1" --> "1" Scheduler : scheduler
+								class Simulation {
+									name: String
+									debug: Boolean
+									streetPositions: Dictionary
+									usedTrafficLightsMatrix: Matrix
+
+									maxDuration: Integer
+									numberOfIntersections: Integer
+									numberOfStreets: Integer
+									numberOfCars: Integer
+									bonusPoints: Integer
+
+									currentTime: Integer
+
+									trafficLightsMatrix: Matrix
+
+									cityPlanMatrix: Matrix
+									costMatrix: Matrix
+									score: Integer
+
+									run(): void
+									tick(): void
+									get_debug_cars(): List
+
+									saveSubmission(): void
+								}
+
+								class Car {
+									position_index: Integer
+									car_data: Array
+									targetIntersections: Integer
+									path: Array
+									costOfPath: Integer
+									id: Integer
+									reached_target(): Boolean
+									get_position():
+									tick(): void
+								}
+							</pre>
+						  </div>
+					</section>
+
+					<section>
+						<h2>Scheduler - IST</h2>
+						<div class="mermaid">
+							<pre>
+								classDiagram
+
+								Scheduler "1" --> "1" Simulation : simulation
+								class Scheduler {
+									abstract tick(): void
+									abstract create_submission(): String
+								}
+
+								Scheduler <|-- RoundRobinScheduler
+								Scheduler <|-- RandomScheduler
+
+								class SchedulerFactory {
+									static make(type: SchedulerType): Scheduler
+								}
+							</pre>
+						</div>
+					</section>
+
+					<section class="left-0">
+						<h2>CityPlanMatrix</h2>
+						<div class="flex space-x-8 items-center">
+							<div class="w-1/3 flex-shrink-0">
+								<img src="images/cityplan.png" alt="">
+							</div>
+							<div class="flex-shrink-1 text-lg" data-markdown>
+								| - | 0              | 1               | 2             | 3           |
+								|---|----------------|-----------------|---------------|-------------|
+								| 0 | -              | rue-d-amsterdam | -             | -           |
+								| 1 | -              | -               | rue-de-moscou | -           |
+								| 2 | rue-de-londres | -               | -             | rue-de-rome |
+								| 3 | -              | rue-d-athenes   | -             | -           |
+							</div>
+
+						</div>
+					</section>
+
+					<section>
+						<h2>RoundRobinScheduler</h2>
+						<pre>
+							<code data-trim class="language-python">
+for i in range(simulation.number_of_intersections):
+	if i not in self.cycles:
+		# initialize cycle
+		vertex = [x for x in range(simulation.number_of_intersections) if
+				  simulation.city_plan_matrix[x][i] is not None]
+		self.cycles[i] = cycle(vertex)
+		self.active_streets[i] = next(self.cycles[i])
+		traffic_lights_matrix[self.active_streets[i]][i] = self.quantum
+	else:
+		current_street = self.active_streets[i]
+		if traffic_lights_matrix[current_street][i] > 0:
+			traffic_lights_matrix[current_street][i] -= 1
+			if traffic_lights_matrix[current_street][i] == 0:
+				self.active_streets[i] = next(self.cycles[i])
+				traffic_lights_matrix[self.active_streets[i]][i] = self.quantum
+							</code>
+						</pre>
+					</section>
 				</section>
 
+
 				<section>
-					<img src="images/car1.bmp" alt="">
-					<img src="images/car2.bmp" alt="">
+					<h1>Ergebnisse</h1>
+					<section>
+						<pre>
+4
+0
+1
+rue-de-londres 1
+1
+2
+rue-d-amsterdam 1
+rue-d-athenes 1
+2
+1
+rue-de-moscou 1
+3
+1
+rue-de-rome 1
+					</pre>
+					</section>
+					<section>
+						<pre>
+Score for round_robin_a_1: 1001
+Score for round_robin_e_1: 670216
+Score for round_robin_f_1: 506923
+Score for round_robin_c_1: 1230269
+Score for round_robin_b_1: 4565601
+Score for round_robin_d_1: 989401
+					</pre>
+					</section>
 				</section>
+
+
 			</div>
 		</div>
 

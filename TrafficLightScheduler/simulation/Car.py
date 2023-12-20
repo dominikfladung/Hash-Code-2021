@@ -43,9 +43,6 @@ class Car:
     def reached_target(self):
         return self.path[self.position_index] == self.path[-1] and self.cost_of_path == 0
 
-    def get_score(self, time):
-        return 0
-
     def get_position(self):
         return self.path[self.position_index]
 

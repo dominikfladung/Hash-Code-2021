@@ -44,6 +44,11 @@ Simulation "1" --> "1" CityPlan : cityPlan
 Simulation "1" --> "1..*" Car : cars
 Simulation "1" --> "1" Scheduler : scheduler
 class Simulation {
+    name: String
+    debug: Boolean
+    streetPositions: Dictionary
+    usedTrafficLightsMatrix: Matrix
+
     maxDuration: Integer
     numberOfIntersections: Integer
     numberOfStreets: Integer
@@ -53,53 +58,28 @@ class Simulation {
     currentTime: Integer
 
     trafficLightsMatrix: Matrix
+
     cityPlanMatrix: Matrix
     costMatrix: Matrix
     score: Integer
 
     run(): void
     tick(): void
-    
-    getScore(): Integer
-    generateSubmission(): String
+    get_debug_cars(): List
+
     saveSubmission(): void
 }
 
-CityPlan --> "1..*" Street : streets
-class CityPlan
-
-Intersection "1" <-- "1" Street : startIntersection
-Intersection "1" <-- "1" Street : endIntersection
-class Street {
-    name: String
-    secondsToTravel: Integer [L]
-}
-
-Intersection "1" --> "1..*" Street : incomingStreets
-Intersection "1" --> "1..*" Street : outgoingStreets 
-class Intersection {
-    id: Integer
-}
-
-Car --> "1" Street : currentStreet
-Car --> "n" Street : path
 class Car {
+    position_index: Integer
+    car_data: Array
+    targetIntersections: Integer
+    path: Array
+    costOfPath: Integer
+    id: Integer
+    reached_target(): Boolean
+    get_position():
     tick(): void
-    isFinished(): Boolean
-    getScore(time: Integer): Integer
-}
-
-class TrafficLightState {
-    <<Enumeration>>
-    RED
-    GREEN
-}
-
-TrafficLight "n" --> "1" Street : street
-TrafficLight "n" --> "1" Intersection : intersection
-TrafficLight "1" --> "n" Car: carQueue
-class TrafficLight {
-    state: TrafficLightState
 }
 
 
@@ -118,13 +98,11 @@ Scheduler "1" --> "1" Simulation : simulation
 class Scheduler {
     <<abstract>>
     abstract tick(): void
+    abstract create_submission(): String
 }
 
 Scheduler <|-- RoundRobinScheduler
-Scheduler <|-- VirtualRoundRobinScheduler
 Scheduler <|-- RandomScheduler
-Scheduler <|-- LeastTrafficScheduler
-Scheduler <|-- LotteryScheduler
 
 class SchedulerFactory {
     static make(type: SchedulerType): Scheduler

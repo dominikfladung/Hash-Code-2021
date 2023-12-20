@@ -18,6 +18,7 @@ class Simulation:
         self.used_traffic_lights_matrix = None
         self.city_plan_matrix = None
         self.cars = []
+        self.cost_matrix = None
 
         self.score = 0
         self.current_time = 0

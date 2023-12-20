@@ -1,8 +1,6 @@
 from TrafficLightScheduler.schedulers.Scheduler import Scheduler
 from TrafficLightScheduler.simulation.Simulation import Simulation
-from TrafficLightScheduler.simulation.SimulationFactory import SimulationFactory
 from itertools import cycle
-from tqdm import tqdm
 
 
 class RoundRobinScheduler(Scheduler):
@@ -29,11 +27,14 @@ class RoundRobinScheduler(Scheduler):
                         self.active_streets[i] = next(self.cycles[i])
                         traffic_lights_matrix[i][self.active_streets[i]] = self.quantum
 
+    def create_submission(self, simulation: Simulation):
+        submission = [simulation.number_of_intersections]
+        for from_vertex in range(simulation.number_of_intersections):
+            submission.append(from_vertex)
+            column = [row[from_vertex] for row in simulation.city_plan_matrix]
+            streets = [x for x in column if x is not None]
+            submission.append(len(streets))
+            for street in streets:
+                submission.append(street + " " + str(self.quantum))
 
-if __name__ == "__main__":
-    i = 10
-    for char in tqdm(['a', 'b', 'c', 'd', 'e', 'f']):
-        name = "RoundRobinScheduler_" + char + str(i)
-        simulation = SimulationFactory.make_from_input(char, name)
-        scheduler = RoundRobinScheduler(i)
-        simulation.run(scheduler)
+        return "\n".join([str(x) for x in submission])

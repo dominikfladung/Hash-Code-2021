@@ -9,3 +9,7 @@ class Scheduler(ABC):
     @abstractmethod
     def tick(self, simulation: Simulation):
         pass
+
+    @abstractmethod
+    def create_submission(self, simulation: Simulation):
+        pass

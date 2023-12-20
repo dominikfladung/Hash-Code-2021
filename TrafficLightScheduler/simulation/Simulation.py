@@ -1,9 +1,11 @@
 import numpy as np
+from TrafficLightScheduler import MODULE_ROOT
 
 
 class Simulation:
-    def __init__(self, name):
+    def __init__(self, name, debug=False):
         self.name = name
+        self.debug = debug
         self.scheduler = None
         self.max_duration = 0
         self.number_of_intersections = 0
@@ -23,15 +25,19 @@ class Simulation:
     def run(self, scheduler):
         self.scheduler = scheduler
         debug_cars = self.get_debug_cars()
-        #print("[T0] " + str(debug_cars))
+        if self.debug:
+            print("[T0] " + str(debug_cars))
+
         for i in range(self.max_duration):
             self.current_time = i
             self.tick()
-            #print("[T" + str(i + 1) + "] " + str(self.get_debug_cars()))
+            if self.debug:
+                print("[T" + str(i + 1) + "] " + str(self.get_debug_cars()))
 
-        submission = self.generate_submission()
-        print(submission)
+        submission = self.scheduler.create_submission(self)
         self.save_submission(submission)
+
+        return self.score
 
     def get_debug_cars(self):
         street_keys = list(self.street_positions.keys())
@@ -55,15 +61,13 @@ class Simulation:
         finished_cars = [car for car in self.cars if car.reached_target()]
         for car in finished_cars:
             self.score += self.bonus_points + self.max_duration - self.current_time
-            #print(f"Car finished at {self.current_time}: " + str(car.car_data))
+            if self.debug:
+                print(f"Car finished at {self.current_time}: " + str(car.car_data))
 
         # remove finished cars
         self.cars = [car for car in self.cars if not car.reached_target()]
 
-    def generate_submission(self):
-        return str(self.score)
-
     def save_submission(self, submission):
         """Save the submission to the outputs folder"""
-        with open("../../outputs/" + self.name + ".txt", 'w', encoding='utf-8') as file:
+        with open(MODULE_ROOT + "/../outputs/" + self.name + ".txt", 'w', encoding='utf-8') as file:
             file.write(submission)

@@ -1,3 +1,4 @@
+from TrafficLightScheduler import MODULE_ROOT
 from TrafficLightScheduler.simulation.Car import Car
 from TrafficLightScheduler.simulation.Simulation import Simulation
 import numpy as np
@@ -5,13 +6,13 @@ import numpy as np
 
 class SimulationFactory:
     @staticmethod
-    def make_from_input(input_str, name):
-        with open("../../inputs/" + input_str + ".txt", 'r', encoding='utf-8') as file:
+    def make_from_input(input_str, name, debug=False):
+        with open(MODULE_ROOT + "/../inputs/" + input_str + ".txt", 'r', encoding='utf-8') as file:
             content = file.read().splitlines()
 
         # params
         params = content[0].split(' ')
-        simulation = Simulation(name)
+        simulation = Simulation(name, debug)
         simulation.max_duration = int(params[0])
         simulation.number_of_intersections = int(params[1])
         simulation.number_of_streets = int(params[2])
